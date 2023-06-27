@@ -40,9 +40,9 @@ function App() {
         });
       }
     })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
   }
 
   useEffect(() => {
@@ -50,13 +50,14 @@ function App() {
     if (jwt) {
       auth(jwt);
     }
-  }, [loggedIn]);
+  }, []);
 
   useEffect(() => {
     if (loggedIn) {
       history.push('/main');
     }
   }, [loggedIn]);
+
 
   const onLogin = ({ email, password }) => {
     return mestoAuth.authorize(email, password).then((res) => {
@@ -65,43 +66,43 @@ function App() {
         setLoggedIn(true);
       }
     })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
   }
 
   const onRegister = ({ email, password }) => {
     return mestoAuth.register(email, password)
-    .then((res) => {
-      return res;
-    })
-    .then(() => {
-      setRegisterError(false);
-      setIsInfoTooltipOpen(true);
-      history.push('/sign-in')
-    })
-    .catch(() => {
-      setRegisterError(true);
-      setIsInfoTooltipOpen(true);
-    })
+      .then((res) => {
+        return res;
+      })
+      .then(() => {
+        setRegisterError(false);
+        setIsInfoTooltipOpen(true);
+        history.push('/sign-in')
+      })
+      .catch(() => {
+        setRegisterError(true);
+        setIsInfoTooltipOpen(true);
+      })
   }
 
   useEffect(() => {
     api.getUserInfo()
-    .then((res) => {
-      setCurrentUser(res);
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
     api.getCards()
-    .then((res) => {
-      setCards(res);
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
-  }, [])
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+  }, [loggedIn])
 
   function handleEditAvatarClick(e) {
     setIsEditAvatarPopupOpen(true);
@@ -125,11 +126,11 @@ function App() {
 
   useEffect(() => {
     function closeByEscape(evt) {
-      if(evt.key === 'Escape') {
+      if (evt.key === 'Escape') {
         closeAllPopups();
       }
     }
-    if(isOpen) {
+    if (isOpen) {
       document.addEventListener('keydown', closeByEscape);
       return () => {
         document.removeEventListener('keydown', closeByEscape);
@@ -144,33 +145,33 @@ function App() {
   function handleUpdateUser(e) {
     setIsLoading(true);
     api.setUserInfo(e)
-    .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => setIsLoading(false))
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => setIsLoading(false))
   }
 
   function handleUpdateAvatar(e) {
     setIsLoading(true);
     api.setUserAvatar(e.avatar.value)
-    .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => setIsLoading(false))
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => setIsLoading(false))
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    if(!isLiked) {
+    if (!isLiked) {
       api.setLikeCard(card._id)
         .then((newCard) => {
           setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
@@ -202,14 +203,14 @@ function App() {
   function handleAddPlaceSubmit(e) {
     setIsLoading(true);
     api.generateCard(e)
-    .then((newCard) => {
-      setCards([newCard, ...cards]);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => setIsLoading(false))
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -233,14 +234,14 @@ function App() {
             />
             <Route path="/sign-up">
               <div>
-              <Register onRegister={onRegister} />
+                <Register onRegister={onRegister} />
               </div>
             </Route>
             <Route path="/sign-in">
               <Login onLogin={onLogin} />
             </Route>
             <Route exact path="/">
-              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-up" />}
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <Footer />
@@ -250,10 +251,11 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isLoading={isLoading} />
         <PopupWithForm title="Вы уверены?" name="confirm" />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} registerError={registerError} />
+        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} registerError={registerError} text={registerError ? 'Что-то пошло не так! Попробуйте ещё раз.' : 'Вы успешно зарегистрировались!'} />
       </CurrentUserContext.Provider>
     </div>
   );
+  
 }
 
 export default App;

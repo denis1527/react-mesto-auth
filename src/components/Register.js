@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AuthForm from './AuthForm';
 
@@ -6,15 +6,9 @@ const Register = ({ onRegister }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const resetForm = useCallback(() => {
-    setEmail('');
-    setPassword('');
-  }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister({ email, password })
-      .then(resetForm)
+    onRegister({ email, password });
   }
 
   return (

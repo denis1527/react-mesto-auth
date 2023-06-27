@@ -2,7 +2,7 @@ import React from 'react';
 import SuccessImg from '../images/success-icon.svg';
 import FailedImg from '../images/failed-icon.svg';
 
-function InfoTooltip({ isOpen, onClose, registerError }) {
+function InfoTooltip({ isOpen, onClose, registerError, text }) {
   function handleOverlayClick(e) {
     if(e.currentTarget === e.target) {
       onClose();
@@ -14,12 +14,7 @@ function InfoTooltip({ isOpen, onClose, registerError }) {
       <div className="tooltip__container">
         <img className="tooltip__img" src={`${registerError ? FailedImg : SuccessImg}`} alt="Результат регистрации" />
         <p className="tooltip__text">
-          {`${
-            registerError ?
-            'Что-то пошло не так! Попробуйте ещё раз.'
-            :
-            'Вы успешно зарегистрировались!'
-          }`}
+          {text}
         </p>
         <button className="tooltip__close-btn" type="button" onClick={onClose}></button>
       </div>
@@ -27,4 +22,4 @@ function InfoTooltip({ isOpen, onClose, registerError }) {
   )
 }
 
-export default InfoTooltip
+export default InfoTooltip;

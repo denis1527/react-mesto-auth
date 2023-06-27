@@ -9,7 +9,7 @@ function PopupWithForm({ name, title, btnTitle, isOpen, onClose, children, onSub
     <section className={`popup popup-${name} ${isOpen ? 'popup_open' : ''}`} onClick={handleOverlayClick}> 
       <div className="popup__container">
         <h3 className="popup__title">{title}</h3>
-        <form className="edit-form" name={name} onSubmit={onSubmit} noValidate>
+        <form className="edit-form" name={name} onSubmit={onSubmit}>
           {children}
           <button className="submit-btn" type="submit">{btnTitle}</button>
         </form> 

@@ -1,8 +1,8 @@
-function AuthForm({ name, title, btnTitle, handleSubmit, email, setEmail, password, setPassword, }) {
+function AuthForm({ name, title, btnTitle, handleSubmit, email, setEmail, password, setPassword }) {
   return (
     <>
       <h3 className="auth__title">{title}</h3>
-      <form className="auth__form" name={name} onSubmit={handleSubmit} noValidate>
+      <form className="auth__form" name={name} onSubmit={handleSubmit}>
         <fieldset className="auth__fieldset">
           <label className="auth__label">
             <input className="auth__item" id="email" type="email" name="email" value={email} onChange={({ target }) => setEmail(target.value)} placeholder="Email"/>
@@ -18,3 +18,4 @@ function AuthForm({ name, title, btnTitle, handleSubmit, email, setEmail, passwo
 }
 
 export default AuthForm;
+
