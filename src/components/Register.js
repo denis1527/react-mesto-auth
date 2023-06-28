@@ -8,7 +8,11 @@ const Register = ({ onRegister }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister({ email, password });
+    onRegister({ email, password })
+      .then(() => {
+        setEmail('');
+        setPassword('');
+      });
   }
 
   return (
@@ -27,5 +31,6 @@ const Register = ({ onRegister }) => {
     </div>
   )
 }
+
 
 export default Register

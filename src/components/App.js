@@ -58,7 +58,6 @@ function App() {
     }
   }, [loggedIn]);
 
-
   const onLogin = ({ email, password }) => {
     return mestoAuth.authorize(email, password).then((res) => {
       if (res.token) {
@@ -88,21 +87,23 @@ function App() {
   }
 
   useEffect(() => {
-    api.getUserInfo()
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
-    api.getCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
-  }, [loggedIn])
+    if (loggedIn) {
+      api.getUserInfo()
+        .then((res) => {
+          setCurrentUser(res);
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+      api.getCards()
+        .then((res) => {
+          setCards(res);
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+  }, [loggedIn]);
 
   function handleEditAvatarClick(e) {
     setIsEditAvatarPopupOpen(true);
@@ -243,6 +244,7 @@ function App() {
             <Route exact path="/">
               {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
+
           </Switch>
           <Footer />
         </div>
@@ -251,11 +253,10 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isLoading={isLoading} />
         <PopupWithForm title="Вы уверены?" name="confirm" />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} registerError={registerError} text={registerError ? 'Что-то пошло не так! Попробуйте ещё раз.' : 'Вы успешно зарегистрировались!'} />
+        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} registerError={registerError} />
       </CurrentUserContext.Provider>
     </div>
   );
-  
 }
 
 export default App;
