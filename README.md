@@ -12,4 +12,4 @@
 * Добавить валидацию форм на React.js
 * Сделать страницы авторизации и регистрации адаптивными
 
-[Ссылка на проект](https://panfil0k.github.io/react-mesto-auth/)
+[Ссылка на проект](https://denis1527.github.io/react-mesto-auth/)
