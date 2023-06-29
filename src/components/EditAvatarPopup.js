@@ -20,7 +20,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     <PopupWithForm isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} title="Обновить аватар" btnTitle={isLoading? 'Сохранение...' : 'Сохранить'} name="edit-avatar">
       <fieldset className="edit-form__fieldset">
         <label className="edit-form__label">
-          <input className="edit-form__item edit-form__item_el_avatar-src" id="avatar-src-input" type="url" name="avatarSrc" placeholder="Ссылка на картинку" ref={avatarRef}/>
+          <input className="edit-form__item edit-form__item_el_avatar-src" id="avatar-src-input" type="url" name="avatarSrc" placeholder="Ссылка на картинку" ref={avatarRef} required/>
           <span className="edit-form__input-error avatar-src-input-error"></span>
         </label>
       </fieldset>
